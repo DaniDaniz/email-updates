@@ -11,7 +11,9 @@ body{font-family:Arial,sans-serif;font-size:14px;color:#15181B;background:#F1F2F
 .preview-pane{flex:1;overflow-y:auto;padding:20px;background:#F1F2F3;}
 .sidebar-header{padding:16px;border-bottom:1px solid #e2e5e8;font-weight:700;font-size:15px;color:#3643BA;}
 .sec{border-bottom:1px solid #e2e5e8;}
-.sec-title{padding:10px 16px;font-size:11px;font-weight:700;color:#687787;background:#F7F8F9;text-transform:uppercase;letter-spacing:0.5px;}
+.sec-title{padding:10px 16px;font-size:11px;font-weight:700;color:#687787;background:#F7F8F9;text-transform:uppercase;letter-spacing:0.5px;display:flex;justify-content:space-between;align-items:center;}
+.sec-toggle{font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;border:none;cursor:pointer;background:#fee2e2;color:#991b1b;}
+.sec-toggle.show{background:#dcfce7;color:#166534;}
 .sec-body{padding:12px 16px;}
 label.lbl{display:block;font-size:11px;color:#687787;margin-bottom:3px;margin-top:8px;}
 input.inp,textarea.inp,select.inp{width:100%;padding:7px 10px;border:1px solid #e2e5e8;border-radius:4px;font-size:13px;background:#fff;color:#15181B;font-family:Arial,sans-serif;}
@@ -20,6 +22,7 @@ textarea.inp{resize:vertical;min-height:55px;}
 .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .card-num{font-size:11px;font-weight:700;color:#687787;}
 .btn-rem{background:none;border:none;cursor:pointer;color:#aaa;font-size:20px;padding:0;line-height:1;}
+.btn-rem:hover{color:#c0392b;}
 .btn-add{width:100%;padding:8px;border:1px dashed #ccc;border-radius:4px;background:#fff;cursor:pointer;font-size:12px;color:#687787;margin-top:4px;}
 .btn-add:hover{border-color:#3643BA;color:#3643BA;}
 .twocol{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
@@ -28,6 +31,7 @@ textarea.inp{resize:vertical;min-height:55px;}
 .actions{padding:12px 16px;border-top:1px solid #e2e5e8;background:#fff;position:sticky;bottom:0;}
 .btn-copy{width:100%;padding:11px;background:#3643BA;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:700;}
 .btn-copy:hover{background:#2a35a0;}
+.sec-hidden{opacity:0.5;}
 </style>
 </head>
 <body>
@@ -80,14 +84,20 @@ textarea.inp{resize:vertical;min-height:55px;}
     <div style="padding:0 16px 12px;"><button class="btn-add" id="add-entrega">+ Adicionar entrega</button></div>
   </div>
 
-  <div class="sec">
-    <div class="sec-title">Experimentos Concluidos</div>
+  <div class="sec" id="sec-concluidos">
+    <div class="sec-title">
+      Experimentos Concluidos
+      <button class="sec-toggle" id="toggle-concluidos">Ocultar secao</button>
+    </div>
     <div class="sec-body" id="lista-concluidos"></div>
     <div style="padding:0 16px 12px;"><button class="btn-add" id="add-concluido">+ Adicionar experimento</button></div>
   </div>
 
-  <div class="sec">
-    <div class="sec-title">Experimentos em Andamento</div>
+  <div class="sec" id="sec-andamento">
+    <div class="sec-title">
+      Experimentos em Andamento
+      <button class="sec-toggle" id="toggle-andamento">Ocultar secao</button>
+    </div>
     <div class="sec-body" id="lista-andamento"></div>
     <div style="padding:0 16px 12px;"><button class="btn-add" id="add-andamento">+ Adicionar experimento</button></div>
   </div>
@@ -113,6 +123,8 @@ var concluidos = [
 var andamento = [
   {titulo:'Experimento em curso',desc:'Hipotese sendo testada.',tipo:'andamento',plataforma:'',img:''}
 ];
+var showConcluidos = true;
+var showAndamento = true;
 
 function getVal(id){ return document.getElementById(id).value; }
 
@@ -129,14 +141,14 @@ function badge(tipo){
 
 function cardPreview(item){
   var imgCell = item.img
-    ? '<td style="width:130px;min-width:130px;vertical-align:middle;background:#e2e5e8;padding:0;"><img src="'+item.img+'" style="width:130px;height:120px;object-fit:cover;display:block;"></td>'
-    : '<td style="width:130px;min-width:130px;vertical-align:middle;background:#e2e5e8;text-align:center;padding:20px 8px;"><span style="font-size:9px;color:#687787;">imagem</span></td>';
+    ? '<td style="width:190px;min-width:190px;vertical-align:middle;background:#e2e5e8;padding:0;"><img src="'+item.img+'" style="width:190px;height:190px;object-fit:cover;display:block;"></td>'
+    : '<td style="width:190px;min-width:190px;vertical-align:middle;background:#e2e5e8;text-align:center;padding:20px 8px;"><span style="font-size:9px;color:#687787;">imagem</span></td>';
   var plat = item.plataforma ? ' <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#374151;background:#F3F4F6;border:1px solid #D1D5DB;">'+item.plataforma+'</span>' : '';
   return '<table style="width:100%;background:#F7F8F9;border:1px solid #e2e5e8;border-left:3px solid #3643BA;border-radius:4px;overflow:hidden;table-layout:fixed;margin-bottom:10px;" cellpadding="0" cellspacing="0"><tr>'
     +imgCell
-    +'<td style="vertical-align:top;padding:14px 16px;">'
-    +'<p style="font-size:13px;font-weight:700;color:#15181B;margin:0 0 5px 0;">'+item.titulo+'</p>'
-    +'<p style="font-size:11px;color:#687787;line-height:1.55;margin:0 0 8px 0;">'+item.desc+'</p>'
+    +'<td style="vertical-align:top;padding:16px 18px;">'
+    +'<p style="font-size:14px;font-weight:700;color:#15181B;margin:0 0 6px 0;line-height:1.3;">'+item.titulo+'</p>'
+    +'<p style="font-size:12px;color:#687787;line-height:1.65;margin:0 0 8px 0;">'+item.desc+'</p>'
     +badge(item.tipo)+plat
     +'</td></tr></table>';
 }
@@ -151,6 +163,13 @@ function buildPreview(){
   var he=entregas.map(cardPreview).join('')||'<p style="color:#aaa;font-size:12px;padding:4px 0;">Nenhuma entrega.</p>';
   var hc=concluidos.map(cardPreview).join('')||'<p style="color:#aaa;font-size:12px;padding:4px 0;">Nenhum experimento.</p>';
   var ha=andamento.map(cardPreview).join('')||'<p style="color:#aaa;font-size:12px;padding:4px 0;">Nenhum experimento.</p>';
+
+  var secConcluidos = showConcluidos
+    ? '<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;"><p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Experimentos concluidos</p>'+hc+'</td></tr>'
+    : '';
+  var secAndamento = showAndamento
+    ? '<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;"><p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Experimentos em andamento</p>'+ha+'</td></tr>'
+    : '';
 
   return '<table width="600" cellpadding="0" cellspacing="0" style="width:600px;font-family:Arial,sans-serif;">'
     +'<tr><td bgcolor="#3643BA" style="padding:40px 40px 36px;">'
@@ -180,11 +199,8 @@ function buildPreview(){
     +'<table width="100%" style="background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">CONVERSION LIFT</td><td align="right" style="padding:9px 12px;font-size:14px;font-weight:700;color:#7AFFA6;">'+clift+'</td></tr></table>'
     +'</td></tr></table></td></tr>'
 
-    +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;">'
-    +'<p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Experimentos concluidos</p>'+hc+'</td></tr>'
-
-    +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;">'
-    +'<p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Experimentos em andamento</p>'+ha+'</td></tr>'
+    +secConcluidos
+    +secAndamento
 
     +'<tr><td bgcolor="#15181B" style="padding:28px 40px;text-align:center;">'
     +'<p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 6px 0;">Digital <span style="color:#7AFFA6;">Experience</span></p>'
@@ -205,49 +221,70 @@ function buildSidebarCards(list, type){
   list.forEach(function(item, i){
     var d = document.createElement('div');
     d.className = 'card-block';
-
     var tipoSel = type==='entregas'
       ? '<label class="lbl">Tipo</label><select class="inp" data-type="'+type+'" data-i="'+i+'" data-field="tipo"><option value="melhoria"'+(item.tipo==='melhoria'?' selected':'')+'>Melhoria</option><option value="bug"'+(item.tipo==='bug'?' selected':'')+'>Bug</option></select>'
       : '';
-
     d.innerHTML = '<div class="card-header"><span class="card-num">Card '+(i+1)+'</span><button class="btn-rem" data-type="'+type+'" data-i="'+i+'">&times;</button></div>'
-      +'<label class="lbl">Titulo</label><input class="inp" data-type="'+type+'" data-i="'+i+'" data-field="titulo" value="'+item.titulo.replace(/"/g,'&quot;')+'">'
+      +'<label class="lbl">Titulo</label><input class="inp" data-type="'+type+'" data-i="'+i+'" data-field="titulo" value="'+item.titulo.replace(/"/g,'&quot;').replace(/'/g,'&#39;')+'">'
       +'<label class="lbl">Descricao</label><textarea class="inp" data-type="'+type+'" data-i="'+i+'" data-field="desc">'+item.desc+'</textarea>'
       +tipoSel
       +'<label class="lbl">Plataforma</label><input class="inp" data-type="'+type+'" data-i="'+i+'" data-field="plataforma" value="'+item.plataforma+'">'
       +'<label class="img-lbl">Clique para adicionar imagem<input type="file" accept="image/*" style="display:none" data-type="'+type+'" data-i="'+i+'"></label>'
-      +(item.img?'<img src="'+item.img+'" style="width:100%;height:50px;object-fit:cover;border-radius:3px;margin-top:4px;">':'');
+      +(item.img?'<img src="'+item.img+'" style="width:100%;height:60px;object-fit:cover;border-radius:3px;margin-top:4px;">':'');
     el.appendChild(d);
   });
+}
+
+function updateToggleButtons(){
+  var tc = document.getElementById('toggle-concluidos');
+  var ta = document.getElementById('toggle-andamento');
+  var sc = document.getElementById('sec-concluidos');
+  var sa = document.getElementById('sec-andamento');
+  if(showConcluidos){
+    tc.textContent='Ocultar secao'; tc.className='sec-toggle';
+    sc.style.opacity='1';
+  } else {
+    tc.textContent='Mostrar secao'; tc.className='sec-toggle show';
+    sc.style.opacity='0.5';
+  }
+  if(showAndamento){
+    ta.textContent='Ocultar secao'; ta.className='sec-toggle';
+    sa.style.opacity='1';
+  } else {
+    ta.textContent='Mostrar secao'; ta.className='sec-toggle show';
+    sa.style.opacity='0.5';
+  }
 }
 
 function rebuildAll(){
   buildSidebarCards(entregas,'entregas');
   buildSidebarCards(concluidos,'concluidos');
   buildSidebarCards(andamento,'andamento');
+  updateToggleButtons();
   render();
 }
 
 document.addEventListener('input', function(e){
-  var t=e.target, type=t.dataset.type, i=parseInt(t.dataset.i), field=t.dataset.field;
-  if(!type) return;
-  var list = type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
-  if(field) list[i][field]=t.value;
+  var t=e.target, type=t.dataset.type, field=t.dataset.field;
+  if(!type||!field) return;
+  var i=parseInt(t.dataset.i);
+  var list=type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
+  list[i][field]=t.value;
   render();
 });
 
 document.addEventListener('change', function(e){
-  var t=e.target, type=t.dataset.type, i=parseInt(t.dataset.i), field=t.dataset.field;
+  var t=e.target, type=t.dataset.type, field=t.dataset.field;
   if(!type) return;
-  var list = type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
+  var i=parseInt(t.dataset.i);
+  var list=type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
   if(t.type==='file'){
     if(!t.files[0]) return;
     var r=new FileReader();
     r.onload=function(ev){ list[i].img=ev.target.result; rebuildAll(); };
     r.readAsDataURL(t.files[0]);
   } else if(field){
-    list[i][field]=t.value;
-    render();
+    list[i][field]=t.value; render();
   }
 });
 
@@ -272,6 +309,17 @@ document.getElementById('add-concluido').addEventListener('click', function(){
 document.getElementById('add-andamento').addEventListener('click', function(){
   andamento.push({titulo:'Novo experimento',desc:'Hipotese.',tipo:'andamento',plataforma:'',img:''});
   rebuildAll();
+});
+
+document.getElementById('toggle-concluidos').addEventListener('click', function(){
+  showConcluidos = !showConcluidos;
+  updateToggleButtons();
+  render();
+});
+document.getElementById('toggle-andamento').addEventListener('click', function(){
+  showAndamento = !showAndamento;
+  updateToggleButtons();
+  render();
 });
 
 document.querySelectorAll('.inp').forEach(function(el){
