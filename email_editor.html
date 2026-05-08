@@ -140,17 +140,22 @@ function badge(tipo){
 }
 
 function cardPreview(item){
+  // Ajuste 1 e 2: Largura e Altura da imagem/célula para 200px
   var imgCell = item.img
-    ? '<td style="width:190px;min-width:190px;vertical-align:middle;background:#e2e5e8;padding:0;"><img src="'+item.img+'" style="width:190px;height:190px;object-fit:cover;display:block;"></td>'
-    : '<td style="width:190px;min-width:190px;vertical-align:middle;background:#e2e5e8;text-align:center;padding:20px 8px;"><span style="font-size:9px;color:#687787;">imagem</span></td>';
+    ? '<td width="200" height="200" style="width:200px;height:200px;vertical-align:middle;background:#e2e5e8;padding:0;"><img src="'+item.img+'" style="width:200px;height:200px;object-fit:cover;display:block;"></td>'
+    : '<td width="200" height="200" style="width:200px;height:200px;vertical-align:middle;background:#e2e5e8;text-align:center;padding:20px 8px;"><span style="font-size:9px;color:#687787;">imagem</span></td>';
+  
   var plat = item.plataforma ? ' <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#374151;background:#F3F4F6;border:1px solid #D1D5DB;">'+item.plataforma+'</span>' : '';
-  return '<table style="width:100%;background:#F7F8F9;border:1px solid #e2e5e8;border-left:3px solid #3643BA;border-radius:4px;overflow:hidden;table-layout:fixed;margin-bottom:10px;" cellpadding="0" cellspacing="0"><tr>'
+
+  // Ajuste 3: table-layout:fixed e word-break para garantir a quebra de texto
+  return '<table width="100%" height="200" style="width:100%;height:200px;background:#F7F8F9;border:1px solid #e2e5e8;border-left:3px solid #3643BA;border-radius:4px;overflow:hidden;table-layout:fixed;margin-bottom:10px;" cellpadding="0" cellspacing="0"><tr>'
     +imgCell
-    +'<td style="vertical-align:top;padding:16px 18px;">'
-    +'<p style="font-size:14px;font-weight:700;color:#15181B;margin:0 0 6px 0;line-height:1.3;">'+item.titulo+'</p>'
-    +'<p style="font-size:12px;color:#687787;line-height:1.65;margin:0 0 8px 0;">'+item.desc+'</p>'
+    +'<td style="vertical-align:top;padding:16px 18px;word-break:break-all;overflow-wrap:break-word;">'
+    +'<p style="font-size:14px;font-weight:700;color:#15181B;margin:0 0 6px 0;line-height:1.3;word-break:break-all;">'+item.titulo+'</p>'
+    +'<p style="font-size:12px;color:#687787;line-height:1.65;margin:0 0 8px 0;word-break:break-all;">'+item.desc+'</p>'
     +badge(item.tipo)+plat
     +'</td></tr></table>';
+}
 }
 
 function delta(d){ return d.charAt(0)==='-'?'color:#fff;background:#687787;':'color:#15181B;background:#7AFFA6;'; }
