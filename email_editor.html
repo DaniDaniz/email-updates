@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Editor Email - Digital Experience</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,sans-serif;font-size:14px;color:#15181B;background:#F1F2F3;}
+.layout{display:flex;height:100vh;}
+.sidebar{width:340px;min-width:340px;background:#fff;border-right:1px solid #e2e5e8;overflow-y:auto;display:flex;flex-direction:column;}
+.preview-pane{flex:1;overflow-y:auto;padding:20px;background:#F1F2F3;}
+.sidebar-header{padding:16px;border-bottom:1px solid #e2e5e8;font-weight:700;font-size:15px;color:#3643BA;}
+.section{border-bottom:1px solid #e2e5e8;}
+.section-title{padding:10px 16px;font-size:11px;font-weight:700;color:#687787;background:#F7F8F9;text-transform:uppercase;letter-spacing:0.5px;}
+.section-body{padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
+.field label{display:block;font-size:11px;color:#687787;margin-bottom:3px;}
+.field input,.field textarea{width:100%;padding:7px 10px;border:1px solid #e2e5e8;border-radius:4px;font-size:13px;background:#fff;color:#15181B;font-family:Arial,sans-serif;}
+.field input:focus,.field textarea:focus{outline:none;border-color:#3643BA;}
+.field textarea{resize:vertical;min-height:55px;}
+.card-block{background:#F7F8F9;border:1px solid #e2e5e8;border-radius:4px;padding:10px 12px;margin-bottom:8px;}
+.card-block-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.card-block-title{font-size:11px;font-weight:700;color:#687787;}
+.btn-remove{background:none;border:none;cursor:pointer;color:#687787;font-size:18px;padding:0;line-height:1;}
+.btn-remove:hover{color:#c0392b;}
+.btn-add{width:100%;padding:8px;border:1px dashed #e2e5e8;border-radius:4px;background:none;cursor:pointer;font-size:12px;color:#687787;font-family:Arial,sans-serif;}
+.btn-add:hover{background:#F7F8F9;color:#3643BA;border-color:#3643BA;}
+.select-field label{display:block;font-size:11px;color:#687787;margin-bottom:3px;}
+.select-field select{width:100%;padding:7px 10px;border:1px solid #e2e5e8;border-radius:4px;font-size:13px;background:#fff;color:#15181B;}
+.img-upload{border:1px dashed #e2e5e8;border-radius:4px;padding:8px;text-align:center;cursor:pointer;font-size:11px;color:#687787;display:block;}
+.img-upload:hover{background:#F7F8F9;border-color:#3643BA;}
+.img-preview{width:100%;height:50px;object-fit:cover;border-radius:3px;margin-top:4px;display:block;}
+.actions{padding:12px 16px;border-top:1px solid #e2e5e8;background:#fff;position:sticky;bottom:0;}
+.btn-copy{width:100%;padding:11px;background:#3643BA;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:700;font-family:Arial,sans-serif;}
+.btn-copy:hover{background:#2a35a0;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+</style>
+</head>
+<body>
+<div class="layout">
+<div class="sidebar">
+  <div class="sidebar-header">&#9993; Editor Digital Experience</div>
+
+  <div class="section">
+    <div class="section-title">Cabecalho</div>
+    <div class="section-body">
+      <div class="field"><label>Mes / Ano</label><input id="mes" value="Maio 2025" oninput="render()"></div>
+      <div class="field"><label>Subtitulo</label><input id="subtitulo" value="Principais entregas, experimentos e resultados do mes" oninput="render()"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Numeros</div>
+    <div class="section-body">
+      <div class="two-col">
+        <div class="field"><label>Conversao Web</label><input id="n1v" value="1,17%" oninput="render()"></div>
+        <div class="field"><label>Delta</label><input id="n1d" value="+36,8% YoY" oninput="render()"></div>
+        <div class="field"><label>Conversao App</label><input id="n2v" value="3,35%" oninput="render()"></div>
+        <div class="field"><label>Delta</label><input id="n2d" value="+2,39% YoY" oninput="render()"></div>
+        <div class="field"><label>NPS Post Purchase</label><input id="n3v" value="70.7" oninput="render()"></div>
+        <div class="field"><label>Delta</label><input id="n3d" value="-11,32% YoY" oninput="render()"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Experimentacao</div>
+    <div class="section-body">
+      <div class="two-col">
+        <div class="field"><label>Valor destaque</label><input id="expv" value="+296K" oninput="render()"></div>
+        <div class="field"><label>Descricao</label><input id="expd" value="faturamento incremental" oninput="render()"></div>
+        <div class="field"><label>CRO</label><input id="cro" value="+0,78%" oninput="render()"></div>
+        <div class="field"><label>Personalizacao</label><input id="pers" value="+1,88%" oninput="render()"></div>
+        <div class="field"><label>Conversion Lift</label><input id="clift" value="+2,71%" oninput="render()"></div>
+        <div class="field"><label>Mes referencia</label><input id="expmês" value="Maio" oninput="render()"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Entregas</div>
+    <div class="section-body" id="entregas-list"></div>
+    <div style="padding:0 16px 12px;"><button class="btn-add" onclick="addCard('entregas')">+ Adicionar entrega</button></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Experimentos Concluidos</div>
+    <div class="section-body" id="concluidos-list"></div>
+    <div style="padding:0 16px 12px;"><button class="btn-add" onclick="addCard('concluidos')">+ Adicionar experimento</button></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Experimentos em Andamento</div>
+    <div class="section-body" id="andamento-list"></div>
+    <div style="padding:0 16px 12px;"><button class="btn-add" onclick="addCard('andamento')">+ Adicionar experimento</button></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-copy" onclick="copyHTML()">Copiar HTML para colar no Gmail</button>
+  </div>
+</div>
+
+<div class="preview-pane">
+  <div id="preview" style="max-width:600px;margin:0 auto;background:#fff;"></div>
+</div>
+</div>
+
+<script>
+var data = {
+  entregas:[
+    {titulo:'Titulo da entrega',desc:'Descricao da entrega.',tipo:'melhoria',plataforma:'Site',img:''},
+    {titulo:'Bug no checkout',desc:'Resolucao de falha no pagamento.',tipo:'bug',plataforma:'App',img:''}
+  ],
+  concluidos:[
+    {titulo:'Nome do experimento',desc:'Resultados obtidos.',tipo:'concluido',plataforma:'',img:''}
+  ],
+  andamento:[
+    {titulo:'Experimento em curso',desc:'Hipotese sendo testada.',tipo:'andamento',plataforma:'',img:''}
+  ]
+};
+var imgData={entregas:{},concluidos:{},andamento:{}};
+
+function addCard(type){
+  var defaults={
+    entregas:{titulo:'Nova entrega',desc:'Descricao.',tipo:'melhoria',plataforma:'Site',img:''},
+    concluidos:{titulo:'Novo experimento',desc:'Resultados.',tipo:'concluido',plataforma:'',img:''},
+    andamento:{titulo:'Novo experimento',desc:'Hipotese.',tipo:'andamento',plataforma:'',img:''}
+  };
+  data[type].push(Object.assign({},defaults[type]));
+  renderSidebar();render();
+}
+
+function removeCard(type,i){
+  data[type].splice(i,1);
+  delete imgData[type][i];
+  var newImg={};
+  Object.keys(imgData[type]).forEach(function(k){
+    var nk=parseInt(k);
+    if(nk>i) newImg[nk-1]=imgData[type][k];
+    else if(nk<i) newImg[nk]=imgData[type][k];
+  });
+  imgData[type]=newImg;
+  renderSidebar();render();
+}
+
+function badgeHTML(tipo){
+  if(tipo==='melhoria') return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#1e3a8a;background:#dbeafe;border:1px solid #93c5fd;">Melhoria</span>';
+  if(tipo==='bug') return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#991b1b;background:#fee2e2;border:1px solid #fca5a5;">Bug</span>';
+  if(tipo==='concluido') return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#166534;background:#dcfce7;border:1px solid #bbf7d0;">Concluido</span>';
+  return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#92640A;background:#FEF3C7;border:1px solid #FDE68A;">Em andamento</span>';
+}
+
+function cardHTML(item,imgSrc){
+  var imgCell=imgSrc
+    ?'<td style="width:130px;min-width:130px;vertical-align:middle;background:#e2e5e8;padding:0;"><img src="'+imgSrc+'" style="width:130px;height:120px;object-fit:cover;display:block;"></td>'
+    :'<td style="width:130px;min-width:130px;vertical-align:middle;background:#e2e5e8;text-align:center;padding:20px 8px;"><span style="font-size:9px;color:#687787;">imagem</span></td>';
+  var platBadge=item.plataforma?' <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#374151;background:#F3F4F6;border:1px solid #D1D5DB;">'+item.plataforma+'</span>':'';
+  return '<table style="width:100%;background:#F7F8F9;border:1px solid #e2e5e8;border-left:3px solid #3643BA;border-radius:4px;overflow:hidden;table-layout:fixed;margin-bottom:10px;" cellpadding="0" cellspacing="0"><tr>'+imgCell+'<td style="vertical-align:top;padding:14px 16px;"><p style="font-size:13px;font-weight:700;color:#15181B;margin:0 0 5px 0;line-height:1.3;">'+item.titulo+'</p><p style="font-size:11px;color:#687787;line-height:1.55;margin:0 0 8px 0;">'+item.desc+'</p>'+badgeHTML(item.tipo)+platBadge+'</td></tr></table>';
+}
+
+function renderSidebar(){
+  ['entregas','concluidos','andamento'].forEach(function(type){
+    var el=document.getElementById(type+'-list');
+    el.innerHTML='';
+    data[type].forEach(function(item,i){
+      var div=document.createElement('div');
+      div.className='card-block';
+      var tipoOpts='';
+      if(type==='entregas'){
+        tipoOpts='<option value="melhoria"'+(item.tipo==='melhoria'?' selected':'')+'>Melhoria</option><option value="bug"'+(item.tipo==='bug'?' selected':'')+'>Bug</option>';
+      } else if(type==='concluidos'){
+        tipoOpts='<option value="concluido" selected>Concluido</option>';
+      } else {
+        tipoOpts='<option value="andamento" selected>Em andamento</option>';
+      }
+      var imgThumb=imgData[type][i]?'<img src="'+imgData[type][i]+'" class="img-preview">':'';
+      var tipoField=type==='entregas'?'<div class="select-field" style="margin-top:6px;"><label>Tipo</label><select onchange="data.'+type+'['+i+'].tipo=this.value;render()">'+tipoOpts+'</select></div>':'';
+      div.innerHTML=''
+        +'<div class="card-block-header"><span class="card-block-title">Card '+(i+1)+'</span><button class="btn-remove" onclick="removeCard(''+type+'','+i+')">&times;</button></div>'
+        +'<div class="field"><label>Titulo</label><input value="'+item.titulo.replace(/"/g,'&quot;')+'" oninput="data.'+type+'['+i+'].titulo=this.value;render()"></div>'
+        +'<div class="field" style="margin-top:6px;"><label>Descricao</label><textarea oninput="data.'+type+'['+i+'].desc=this.value;render()">'+item.desc+'</textarea></div>'
+        +tipoField
+        +'<div class="field" style="margin-top:6px;"><label>Plataforma</label><input value="'+item.plataforma+'" oninput="data.'+type+'['+i+'].plataforma=this.value;render()"></div>'
+        +'<label class="img-upload" style="margin-top:6px;">'
+        +'<input type="file" accept="image/*" style="display:none" onchange="loadImg(this,''+type+'','+i+')">'
+        +(imgThumb||'Clique para adicionar imagem')
+        +'</label>';
+      el.appendChild(div);
+    });
+  });
+}
+
+function loadImg(input,type,i){
+  if(!input.files[0]) return;
+  var r=new FileReader();
+  r.onload=function(e){imgData[type][i]=e.target.result;renderSidebar();render();};
+  r.readAsDataURL(input.files[0]);
+}
+
+function deltaStyle(d){
+  return d.startsWith('-')?'color:#fff;background:#687787;':'color:#15181B;background:#7AFFA6;';
+}
+
+function render(){
+  var mes=document.getElementById('mes').value;
+  var sub=document.getElementById('subtitulo').value;
+  var n1v=document.getElementById('n1v').value,n1d=document.getElementById('n1d').value;
+  var n2v=document.getElementById('n2v').value,n2d=document.getElementById('n2d').value;
+  var n3v=document.getElementById('n3v').value,n3d=document.getElementById('n3d').value;
+  var expv=document.getElementById('expv').value,expd=document.getElementById('expd').value;
+  var cro=document.getElementById('cro').value,pers=document.getElementById('pers').value,clift=document.getElementById('clift').value;
+  var expmês=document.getElementById('expmês').value;
+
+  var htmlEntregas=data.entregas.map(function(e,i){return cardHTML(e,imgData.entregas[i]||'');}).join('')||'<p style="color:#687787;font-size:12px;">Nenhuma entrega.</p>';
+  var htmlConc=data.concluidos.map(function(e,i){return cardHTML(e,imgData.concluidos[i]||'');}).join('')||'<p style="color:#687787;font-size:12px;">Nenhum experimento.</p>';
+  var htmlAnd=data.andamento.map(function(e,i){return cardHTML(e,imgData.andamento[i]||'');}).join('')||'<p style="color:#687787;font-size:12px;">Nenhum experimento.</p>';
+
+  document.getElementById('preview').innerHTML=
+    '<table width="600" cellpadding="0" cellspacing="0" style="width:600px;font-family:Arial,sans-serif;">'
+
+    +'<tr><td bgcolor="#3643BA" style="padding:40px 40px 36px;">'
+    +'<p style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);margin:0 0 8px 0;">'+mes.toUpperCase()+'</p>'
+    +'<h1 style="color:#fff;font-size:28px;font-weight:800;margin:0 0 8px 0;font-family:Arial,sans-serif;">Digital Experience <span style="color:#7AFFA6;">Updates</span></h1>'
+    +'<p style="color:rgba(255,255,255,0.55);font-size:13px;margin:0;">'+sub+'</p>'
+    +'</td></tr>'
+
+    +'<tr><td bgcolor="#fff" style="padding:24px 40px;border-bottom:1px solid #e2e5e8;">'
+    +'<p style="font-size:10px;font-weight:600;letter-spacing:1px;color:#687787;margin:0 0 14px 0;">DIGITAL EM NUMEROS</p>'
+    +'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+    +'<td width="32%" style="padding-right:8px;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#3643BA" style="border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:rgba(255,255,255,0.6);margin:0 0 4px 0;">Conversao Web</p><p style="font-size:24px;font-weight:700;color:#fff;margin:0;">'+n1v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+deltaStyle(n1d)+'">'+n1d+'</span></td></tr></table></td>'
+    +'<td width="32%" style="padding-right:8px;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#fff" style="border:1px solid #e2e5e8;border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:#687787;margin:0 0 4px 0;">Conversao App</p><p style="font-size:24px;font-weight:700;color:#15181B;margin:0;">'+n2v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+deltaStyle(n2d)+'">'+n2d+'</span></td></tr></table></td>'
+    +'<td width="32%"><table width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#fff" style="border:1px solid #e2e5e8;border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:#687787;margin:0 0 4px 0;">NPS Post Purchase</p><p style="font-size:24px;font-weight:700;color:#15181B;margin:0;">'+n3v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+deltaStyle(n3d)+'">'+n3d+'</span></td></tr></table></td>'
+    +'</tr></table></td></tr>'
+
+    +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;">'
+    +'<p style="font-size:15px;font-weight:700;color:#15181B;margin:0 0 14px 0;">Principais entregas</p>'
+    +htmlEntregas+'</td></tr>'
+
+    +'<tr><td bgcolor="#3643BA" style="padding:28px 40px;border-bottom:1px solid #2a35a0;">'
+    +'<p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 16px 0;">Resultados de experimentacao</p>'
+    +'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
+    +'<td width="45%" valign="middle" style="padding-right:16px;"><p style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.55);letter-spacing:1px;margin:0 0 6px 0;">EM '+expmês.toUpperCase()+' OBTIVEMOS</p><p style="font-size:42px;font-weight:800;color:#7AFFA6;line-height:1;margin:0;">'+expv+'</p><p style="font-size:12px;color:rgba(255,255,255,0.7);margin:5px 0 0 0;">'+expd+'</p></td>'
+    +'<td width="55%" valign="middle">'
+    +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:6px;background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;"><span style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">CRO</span></td><td align="right" style="padding:9px 12px;"><span style="font-size:14px;font-weight:700;color:#7AFFA6;">'+cro+'</span></td></tr></table>'
+    +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:6px;background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;"><span style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">PERSONALIZACAO</span></td><td align="right" style="padding:9px 12px;"><span style="font-size:14px;font-weight:700;color:#7AFFA6;">'+pers+'</span></td></tr></table>'
+    +'<table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;"><span style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">CONVERSION LIFT</span></td><td align="right" style="padding:9px 12px;"><span style="font-size:14px;font-weight:700;color:#7AFFA6;">'+clift+'</span></td></tr></table>'
+    +'</td></tr></table></td></tr>'
+
+    +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;">'
+    +'<p style="font-size:15px;font-weight:700;color:#15181B;margin:0 0 14px 0;">Experimentos concluidos</p>'
+    +htmlConc+'</td></tr>'
+
+    +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;">'
+    +'<p style="font-size:15px;font-weight:700;color:#15181B;margin:0 0 14px 0;">Experimentos em andamento</p>'
+    +htmlAnd+'</td></tr>'
+
+    +'<tr><td bgcolor="#15181B" style="padding:28px 40px;text-align:center;">'
+    +'<p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 6px 0;">Digital <span style="color:#7AFFA6;">Experience</span></p>'
+    +'<p style="font-size:11px;color:#687787;margin:0 0 16px 0;">Gerado automaticamente pelo chapter de Digital Experience.</p>'
+    +'<a href="https://sites.google.com/decathlon.com/plataformasdigitais/home?authuser=0" style="display:inline-block;font-size:11px;font-weight:600;color:#15181B;text-decoration:none;background:#7AFFA6;padding:9px 22px;border-radius:4px;">Ver dados completos na Decanet</a>'
+    +'<div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);">'
+    +'<p style="font-size:12px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0 0 14px 0;">Queremos que essa newsletter seja a melhor parte da sua caixa de entrada. Conta pra gente o que achou dessa edicao!</p>'
+    +'<a href="https://forms.gle/XjMpxtbYdht2tzSHA" style="display:inline-block;font-size:11px;font-weight:600;color:#fff;text-decoration:none;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);padding:9px 22px;border-radius:4px;">Avaliar esta edicao</a>'
+    +'</div></td></tr>'
+    +'</table>';
+}
+
+function copyHTML(){
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#F7F8F9;">'+document.getElementById('preview').innerHTML+'</body></html>';
+  navigator.clipboard.writeText(html).then(function(){
+    var btn=document.querySelector('.btn-copy');
+    var orig=btn.textContent;
+    btn.textContent='Copiado!';
+    btn.style.background='#166534';
+    setTimeout(function(){btn.textContent=orig;btn.style.background='#3643BA';},2000);
+  }).catch(function(){
+    var ta=document.createElement('textarea');
+    ta.value=html;
+    ta.style.cssText='position:fixed;left:-9999px;top:0;';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    var btn=document.querySelector('.btn-copy');
+    btn.textContent='Copiado!';
+    setTimeout(function(){btn.textContent='Copiar HTML para colar no Gmail';},2000);
+  });
+}
+
+renderSidebar();
+render();
+</script>
+</body>
+</html>
