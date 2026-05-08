@@ -31,17 +31,151 @@ textarea.inp{resize:vertical;min-height:55px;}
 .actions{padding:12px 16px;border-top:1px solid #e2e5e8;background:#fff;position:sticky;bottom:0;}
 .btn-copy{width:100%;padding:11px;background:#3643BA;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:700;}
 .btn-copy:hover{background:#2a35a0;}
-.sec-hidden{opacity:0.5;}
 </style>
 </head>
 <body>
 <div class="layout">
-
 <div class="sidebar">
   <div class="sidebar-header">Editor Digital Experience Updates</div>
-
   <div class="sec">
     <div class="sec-title">Cabecalho</div>
     <div class="sec-body">
       <label class="lbl">Mes / Ano</label>
-      <input class
+      <input class="inp" id="mes" value="Maio 2025">
+      <label class="lbl">Subtitulo</label>
+      <input class="inp" id="subtitulo" value="Principais entregas, experimentos e resultados do mes">
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Numeros</div>
+    <div class="sec-body">
+      <div class="twocol">
+        <div><label class="lbl">Web</label><input class="inp" id="n1v" value="1,17%"></div>
+        <div><label class="lbl">Delta</label><input class="inp" id="n1d" value="+36,8%"></div>
+        <div><label class="lbl">App</label><input class="inp" id="n2v" value="3,35%"></div>
+        <div><label class="lbl">Delta</label><input class="inp" id="n2d" value="+2,39%"></div>
+        <div><label class="lbl">NPS</label><input class="inp" id="n3v" value="70.7"></div>
+        <div><label class="lbl">Delta</label><input class="inp" id="n3d" value="-11,32%"></div>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-title">Experimentacao</div>
+    <div class="sec-body">
+      <div class="twocol">
+        <div><label class="lbl">Valor</label><input class="inp" id="expv" value="+296K"></div>
+        <div><label class="lbl">CRO</label><input class="inp" id="cro" value="+0,78%"></div>
+        <div><label class="lbl">Pers.</label><input class="inp" id="pers" value="+1,88%"></div>
+        <div><label class="lbl">Mes</label><input class="inp" id="expmesref" value="Maio"></div>
+        <input type="hidden" id="expd" value="faturamento incremental">
+        <input type="hidden" id="clift" value="+2,71%">
+      </div>
+    </div>
+  </div>
+  <div class="sec"><div class="sec-title">Entregas</div><div class="sec-body" id="lista-entregas"></div><div style="padding:0 16px 12px;"><button class="btn-add" id="add-entrega">+ Adicionar entrega</button></div></div>
+  <div class="sec" id="sec-concluidos"><div class="sec-title">Concluidos <button class="sec-toggle" id="toggle-concluidos">Ocultar</button></div><div class="sec-body" id="lista-concluidos"></div><div style="padding:0 16px 12px;"><button class="btn-add" id="add-concluido">+ Adicionar</button></div></div>
+  <div class="sec" id="sec-andamento"><div class="sec-title">Andamento <button class="sec-toggle" id="toggle-andamento">Ocultar</button></div><div class="sec-body" id="lista-andamento"></div><div style="padding:0 16px 12px;"><button class="btn-add" id="add-andamento">+ Adicionar</button></div></div>
+  <div class="actions"><button class="btn-copy" id="btn-copy">Copiar HTML para Gmail</button></div>
+</div>
+<div class="preview-pane"><div id="preview" style="max-width:600px;margin:0 auto;background:#fff;"></div></div>
+</div>
+
+<script>
+var entregas = [{titulo:'Titulo da entrega',desc:'asduasudhausdhuahduhaudh...',tipo:'melhoria',plataforma:'Site',img:''}];
+var concluidos = []; var andamento = [];
+var showConcluidos = true; var showAndamento = true;
+
+function badge(tipo){
+  var map = {melhoria:'color:#1e3a8a;background:#dbeafe;border:1px solid #93c5fd;',bug:'color:#991b1b;background:#fee2e2;border:1px solid #fca5a5;',concluido:'color:#166534;background:#dcfce7;border:1px solid #bbf7d0;',andamento:'color:#92640A;background:#FEF3C7;border:1px solid #FDE68A;'};
+  var labels = {melhoria:'Melhoria',bug:'Bug',concluido:'Concluido',andamento:'Em andamento'};
+  return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;'+map[tipo]+'">'+labels[tipo]+'</span>';
+}
+
+function cardPreview(item){
+  // Forçamos a altura de 200px na TD e na Imagem
+  var imgCell = item.img
+    ? '<td width="200" height="200" style="width:200px; height:200px; vertical-align:middle; background:#e2e5e8; padding:0; line-height:0;"><img src="'+item.img+'" style="width:200px; height:200px; object-fit:cover; display:block;"></td>'
+    : '<td width="200" height="200" style="width:200px; height:200px; vertical-align:middle; background:#e2e5e8; text-align:center; padding:0;"><span style="font-size:9px; color:#687787;">imagem</span></td>';
+
+  var plat = item.plataforma ? ' <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#374151;background:#F3F4F6;border:1px solid #D1D5DB;">'+item.plataforma+'</span>' : '';
+
+  // table-layout: fixed e word-break forçam a quebra de strings longas
+  return '<table width="100%" height="200" cellpadding="0" cellspacing="0" style="width:100%; height:200px; background:#F7F8F9; border:1px solid #e2e5e8; border-left:4px solid #3643BA; border-radius:4px; table-layout:fixed; margin-bottom:12px;">'
+    +'<tr>'
+    +imgCell
+    +'<td style="vertical-align:top; padding:16px; word-break:break-all; overflow-wrap:break-word; white-space:normal;">'
+    +'<div style="font-size:14px; font-weight:700; color:#15181B; margin-bottom:6px; line-height:1.3; word-break:break-all;">'+item.titulo+'</div>'
+    +'<div style="font-size:12px; color:#687787; line-height:1.5; margin-bottom:10px; word-break:break-all;">'+item.desc+'</div>'
+    +badge(item.tipo)+plat
+    +'</td></tr></table>';
+}
+
+// Funções de sistema mantidas...
+function getVal(id){ return document.getElementById(id).value; }
+function delta(d){ return d.charAt(0)==='-'?'color:#fff;background:#687787;':'color:#15181B;background:#7AFFA6;'; }
+
+function buildPreview(){
+  var mes=getVal('mes'), sub=getVal('subtitulo');
+  var n1v=getVal('n1v'),n1d=getVal('n1d'),n2v=getVal('n2v'),n2d=getVal('n2d'),n3v=getVal('n3v'),n3d=getVal('n3d');
+  var expv=getVal('expv'),expd=getVal('expd'),cro=getVal('cro'),pers=getVal('pers'),expmesref=getVal('expmesref');
+  var he=entregas.map(cardPreview).join('')||'<p style="color:#aaa;font-size:12px;">Vazio.</p>';
+  var hc=showConcluidos ? '<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;"><p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Experimentos concluidos</p>'+concluidos.map(cardPreview).join('')+'</td></tr>' : '';
+  var ha=showAndamento ? '<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;"><p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Experimentos em andamento</p>'+andamento.map(cardPreview).join('')+'</td></tr>' : '';
+
+  return '<table width="600" cellpadding="0" cellspacing="0" style="width:600px;font-family:Arial,sans-serif;table-layout:fixed;">'
+    +'<tr><td bgcolor="#3643BA" style="padding:40px 40px 36px;"><p style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);margin:0 0 8px 0;">'+mes.toUpperCase()+'</p><h1 style="color:#fff;font-size:28px;font-weight:800;margin:0;">Digital Experience <span style="color:#7AFFA6;">Updates</span></h1><p style="color:rgba(255,255,255,0.55);font-size:13px;margin-top:8px;">'+sub+'</p></td></tr>'
+    +'<tr><td bgcolor="#fff" style="padding:24px 40px;border-bottom:1px solid #e2e5e8;"><table width="100%"><tr>'
+    +'<td width="32%"><div style="border:1px solid #e2e5e8;padding:12px;border-radius:4px;"><p style="font-size:10px;color:#687787;margin:0;">Web</p><p style="font-size:20px;font-weight:700;margin:4px 0;">'+n1v+'</p><span style="font-size:10px;padding:2px 6px;border-radius:4px;'+delta(n1d)+'">'+n1d+'</span></div></td>'
+    +'<td width="32%"><div style="border:1px solid #e2e5e8;padding:12px;border-radius:4px;"><p style="font-size:10px;color:#687787;margin:0;">App</p><p style="font-size:20px;font-weight:700;margin:4px 0;">'+n2v+'</p><span style="font-size:10px;padding:2px 6px;border-radius:4px;'+delta(n2d)+'">'+n2d+'</span></div></td>'
+    +'<td width="32%"><div style="border:1px solid #e2e5e8;padding:12px;border-radius:4px;"><p style="font-size:10px;color:#687787;margin:0;">NPS</p><p style="font-size:20px;font-weight:700;margin:4px 0;">'+n3v+'</p><span style="font-size:10px;padding:2px 6px;border-radius:4px;'+delta(n3d)+'">'+n3d+'</span></div></td>'
+    +'</tr></table></td></tr>'
+    +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;"><p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Principais entregas</p>'+he+'</td></tr>'
+    +hc+ha
+    +'<tr><td bgcolor="#15181B" style="padding:28px 40px;text-align:center;"><p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 16px 0;">Digital <span style="color:#7AFFA6;">Experience</span></p><a href="#" style="display:inline-block;font-size:11px;font-weight:600;color:#15181B;text-decoration:none;background:#7AFFA6;padding:9px 22px;border-radius:4px;">Ver na Decanet</a></td></tr>'
+    +'</table>';
+}
+
+function render(){ document.getElementById('preview').innerHTML = buildPreview(); }
+
+function buildSidebarCards(list, type){
+  var el = document.getElementById('lista-'+type); el.innerHTML = '';
+  list.forEach(function(item, i){
+    var d = document.createElement('div'); d.className = 'card-block';
+    d.innerHTML = '<div class="card-header"><span class="card-num">Card '+(i+1)+'</span><button class="btn-rem" data-type="'+type+'" data-i="'+i+'">&times;</button></div>'
+      +'<label class="lbl">Titulo</label><input class="inp" data-type="'+type+'" data-i="'+i+'" data-field="titulo" value="'+item.titulo+'">'
+      +'<label class="lbl">Descricao</label><textarea class="inp" data-type="'+type+'" data-i="'+i+'" data-field="desc">'+item.desc+'</textarea>'
+      +'<label class="img-lbl">Imagem <input type="file" accept="image/*" style="display:none" data-type="'+type+'" data-i="'+i+'"></label>';
+    el.appendChild(d);
+  });
+}
+
+function rebuildAll(){ buildSidebarCards(entregas,'entregas'); buildSidebarCards(concluidos,'concluidos'); buildSidebarCards(andamento,'andamento'); render(); }
+
+document.addEventListener('input', function(e){
+  var t=e.target, type=t.dataset.type, field=t.dataset.field;
+  if(!type||!field) { render(); return; }
+  var i=parseInt(t.dataset.i);
+  var list=type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
+  list[i][field]=t.value; render();
+});
+
+document.addEventListener('change', function(e){
+  var t=e.target, type=t.dataset.type;
+  if(t.type==='file'){
+    var r=new FileReader(); var i=parseInt(t.dataset.i);
+    var list=type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
+    r.onload=function(ev){ list[i].img=ev.target.result; rebuildAll(); };
+    r.readAsDataURL(t.files[0]);
+  }
+});
+
+document.getElementById('add-entrega').onclick = function(){ entregas.push({titulo:'Nova',desc:'...',tipo:'melhoria',plataforma:'Site',img:''}); rebuildAll(); };
+document.getElementById('btn-copy').onclick = function(){
+  var html='<!DOCTYPE html><html><body style="margin:0;padding:0;background:#F7F8F9;">'+buildPreview()+'</body></html>';
+  navigator.clipboard.writeText(html); alert('Copiado!');
+};
+
+rebuildAll();
+</script>
+</body>
+</html>
