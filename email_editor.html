@@ -10,92 +10,90 @@ body{font-family:Arial,sans-serif;font-size:14px;color:#15181B;background:#F1F2F
 .sidebar{width:340px;min-width:340px;background:#fff;border-right:1px solid #e2e5e8;overflow-y:auto;display:flex;flex-direction:column;}
 .preview-pane{flex:1;overflow-y:auto;padding:20px;background:#F1F2F3;}
 .sidebar-header{padding:16px;border-bottom:1px solid #e2e5e8;font-weight:700;font-size:15px;color:#3643BA;}
-.section{border-bottom:1px solid #e2e5e8;}
-.section-title{padding:10px 16px;font-size:11px;font-weight:700;color:#687787;background:#F7F8F9;text-transform:uppercase;letter-spacing:0.5px;}
-.section-body{padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
-.field label{display:block;font-size:11px;color:#687787;margin-bottom:3px;}
-.field input,.field textarea{width:100%;padding:7px 10px;border:1px solid #e2e5e8;border-radius:4px;font-size:13px;background:#fff;color:#15181B;font-family:Arial,sans-serif;}
-.field input:focus,.field textarea:focus{outline:none;border-color:#3643BA;}
-.field textarea{resize:vertical;min-height:55px;}
+.sec{border-bottom:1px solid #e2e5e8;}
+.sec-title{padding:10px 16px;font-size:11px;font-weight:700;color:#687787;background:#F7F8F9;text-transform:uppercase;letter-spacing:0.5px;}
+.sec-body{padding:12px 16px;}
+label.lbl{display:block;font-size:11px;color:#687787;margin-bottom:3px;margin-top:8px;}
+input.inp,textarea.inp,select.inp{width:100%;padding:7px 10px;border:1px solid #e2e5e8;border-radius:4px;font-size:13px;background:#fff;color:#15181B;font-family:Arial,sans-serif;}
+textarea.inp{resize:vertical;min-height:55px;}
 .card-block{background:#F7F8F9;border:1px solid #e2e5e8;border-radius:4px;padding:10px 12px;margin-bottom:8px;}
-.card-block-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.card-block-title{font-size:11px;font-weight:700;color:#687787;}
-.btn-remove{background:none;border:none;cursor:pointer;color:#687787;font-size:18px;padding:0;line-height:1;}
-.btn-remove:hover{color:#c0392b;}
-.btn-add{width:100%;padding:8px;border:1px dashed #e2e5e8;border-radius:4px;background:none;cursor:pointer;font-size:12px;color:#687787;font-family:Arial,sans-serif;}
-.btn-add:hover{background:#F7F8F9;color:#3643BA;border-color:#3643BA;}
-.select-field label{display:block;font-size:11px;color:#687787;margin-bottom:3px;}
-.select-field select{width:100%;padding:7px 10px;border:1px solid #e2e5e8;border-radius:4px;font-size:13px;background:#fff;color:#15181B;}
-.img-upload{border:1px dashed #e2e5e8;border-radius:4px;padding:8px;text-align:center;cursor:pointer;font-size:11px;color:#687787;display:block;margin-top:6px;}
-.img-upload:hover{background:#F7F8F9;border-color:#3643BA;}
-.img-preview{width:100%;height:50px;object-fit:cover;border-radius:3px;margin-top:4px;display:block;}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.card-num{font-size:11px;font-weight:700;color:#687787;}
+.btn-rem{background:none;border:none;cursor:pointer;color:#aaa;font-size:20px;padding:0;line-height:1;}
+.btn-add{width:100%;padding:8px;border:1px dashed #ccc;border-radius:4px;background:#fff;cursor:pointer;font-size:12px;color:#687787;margin-top:4px;}
+.btn-add:hover{border-color:#3643BA;color:#3643BA;}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.img-lbl{display:block;border:1px dashed #ccc;border-radius:4px;padding:8px;text-align:center;cursor:pointer;font-size:11px;color:#687787;margin-top:6px;}
+.img-lbl:hover{border-color:#3643BA;color:#3643BA;}
 .actions{padding:12px 16px;border-top:1px solid #e2e5e8;background:#fff;position:sticky;bottom:0;}
-.btn-copy{width:100%;padding:11px;background:#3643BA;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:700;font-family:Arial,sans-serif;}
+.btn-copy{width:100%;padding:11px;background:#3643BA;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:13px;font-weight:700;}
 .btn-copy:hover{background:#2a35a0;}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 </style>
 </head>
 <body>
 <div class="layout">
+
 <div class="sidebar">
-  <div class="sidebar-header">&#9993; Editor Digital Experience</div>
+  <div class="sidebar-header">Editor Digital Experience Updates</div>
 
-  <div class="section">
-    <div class="section-title">Cabecalho</div>
-    <div class="section-body">
-      <div class="field"><label>Mes / Ano</label><input id="mes" value="Maio 2025" oninput="render()"></div>
-      <div class="field"><label>Subtitulo</label><input id="subtitulo" value="Principais entregas, experimentos e resultados do mes" oninput="render()"></div>
+  <div class="sec">
+    <div class="sec-title">Cabecalho</div>
+    <div class="sec-body">
+      <label class="lbl">Mes / Ano</label>
+      <input class="inp" id="mes" value="Maio 2025">
+      <label class="lbl">Subtitulo</label>
+      <input class="inp" id="subtitulo" value="Principais entregas, experimentos e resultados do mes">
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Numeros</div>
-    <div class="section-body">
-      <div class="two-col">
-        <div class="field"><label>Conversao Web</label><input id="n1v" value="1,17%" oninput="render()"></div>
-        <div class="field"><label>Delta</label><input id="n1d" value="+36,8% YoY" oninput="render()"></div>
-        <div class="field"><label>Conversao App</label><input id="n2v" value="3,35%" oninput="render()"></div>
-        <div class="field"><label>Delta</label><input id="n2d" value="+2,39% YoY" oninput="render()"></div>
-        <div class="field"><label>NPS Post Purchase</label><input id="n3v" value="70.7" oninput="render()"></div>
-        <div class="field"><label>Delta</label><input id="n3d" value="-11,32% YoY" oninput="render()"></div>
+  <div class="sec">
+    <div class="sec-title">Numeros</div>
+    <div class="sec-body">
+      <div class="twocol">
+        <div><label class="lbl">Conversao Web</label><input class="inp" id="n1v" value="1,17%"></div>
+        <div><label class="lbl">Delta</label><input class="inp" id="n1d" value="+36,8% YoY"></div>
+        <div><label class="lbl">Conversao App</label><input class="inp" id="n2v" value="3,35%"></div>
+        <div><label class="lbl">Delta</label><input class="inp" id="n2d" value="+2,39% YoY"></div>
+        <div><label class="lbl">NPS</label><input class="inp" id="n3v" value="70.7"></div>
+        <div><label class="lbl">Delta</label><input class="inp" id="n3d" value="-11,32% YoY"></div>
       </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Experimentacao</div>
-    <div class="section-body">
-      <div class="two-col">
-        <div class="field"><label>Valor destaque</label><input id="expv" value="+296K" oninput="render()"></div>
-        <div class="field"><label>Descricao</label><input id="expd" value="faturamento incremental" oninput="render()"></div>
-        <div class="field"><label>CRO</label><input id="cro" value="+0,78%" oninput="render()"></div>
-        <div class="field"><label>Personalizacao</label><input id="pers" value="+1,88%" oninput="render()"></div>
-        <div class="field"><label>Conversion Lift</label><input id="clift" value="+2,71%" oninput="render()"></div>
-        <div class="field"><label>Mes referencia</label><input id="expmesref" value="Maio" oninput="render()"></div>
+  <div class="sec">
+    <div class="sec-title">Experimentacao</div>
+    <div class="sec-body">
+      <div class="twocol">
+        <div><label class="lbl">Valor destaque</label><input class="inp" id="expv" value="+296K"></div>
+        <div><label class="lbl">Descricao</label><input class="inp" id="expd" value="faturamento incremental"></div>
+        <div><label class="lbl">CRO</label><input class="inp" id="cro" value="+0,78%"></div>
+        <div><label class="lbl">Personalizacao</label><input class="inp" id="pers" value="+1,88%"></div>
+        <div><label class="lbl">Conversion Lift</label><input class="inp" id="clift" value="+2,71%"></div>
+        <div><label class="lbl">Mes ref.</label><input class="inp" id="expmesref" value="Maio"></div>
       </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Entregas</div>
-    <div class="section-body" id="entregas-list"></div>
-    <div style="padding:0 16px 12px;"><button class="btn-add" onclick="addCard('entregas')">+ Adicionar entrega</button></div>
+  <div class="sec">
+    <div class="sec-title">Entregas</div>
+    <div class="sec-body" id="lista-entregas"></div>
+    <div style="padding:0 16px 12px;"><button class="btn-add" id="add-entrega">+ Adicionar entrega</button></div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Experimentos Concluidos</div>
-    <div class="section-body" id="concluidos-list"></div>
-    <div style="padding:0 16px 12px;"><button class="btn-add" onclick="addCard('concluidos')">+ Adicionar experimento</button></div>
+  <div class="sec">
+    <div class="sec-title">Experimentos Concluidos</div>
+    <div class="sec-body" id="lista-concluidos"></div>
+    <div style="padding:0 16px 12px;"><button class="btn-add" id="add-concluido">+ Adicionar experimento</button></div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Experimentos em Andamento</div>
-    <div class="section-body" id="andamento-list"></div>
-    <div style="padding:0 16px 12px;"><button class="btn-add" onclick="addCard('andamento')">+ Adicionar experimento</button></div>
+  <div class="sec">
+    <div class="sec-title">Experimentos em Andamento</div>
+    <div class="sec-body" id="lista-andamento"></div>
+    <div style="padding:0 16px 12px;"><button class="btn-add" id="add-andamento">+ Adicionar experimento</button></div>
   </div>
 
   <div class="actions">
-    <button class="btn-copy" onclick="copyHTML()">Copiar HTML para colar no Gmail</button>
+    <button class="btn-copy" id="btn-copy">Copiar HTML para colar no Gmail</button>
   </div>
 </div>
 
@@ -105,193 +103,199 @@ body{font-family:Arial,sans-serif;font-size:14px;color:#15181B;background:#F1F2F
 </div>
 
 <script>
-var data = {
-  entregas:[
-    {titulo:'Titulo da entrega',desc:'Descricao da entrega.',tipo:'melhoria',plataforma:'Site'},
-    {titulo:'Bug no checkout',desc:'Resolucao de falha no pagamento.',tipo:'bug',plataforma:'App'}
-  ],
-  concluidos:[
-    {titulo:'Nome do experimento',desc:'Resultados obtidos.',tipo:'concluido',plataforma:''}
-  ],
-  andamento:[
-    {titulo:'Experimento em curso',desc:'Hipotese sendo testada.',tipo:'andamento',plataforma:''}
-  ]
-};
-var imgData={entregas:{},concluidos:{},andamento:{}};
+var entregas = [
+  {titulo:'Titulo da entrega',desc:'Descricao da entrega.',tipo:'melhoria',plataforma:'Site',img:''},
+  {titulo:'Bug no checkout',desc:'Resolucao de falha no pagamento.',tipo:'bug',plataforma:'App',img:''}
+];
+var concluidos = [
+  {titulo:'Nome do experimento',desc:'Resultados obtidos.',tipo:'concluido',plataforma:'',img:''}
+];
+var andamento = [
+  {titulo:'Experimento em curso',desc:'Hipotese sendo testada.',tipo:'andamento',plataforma:'',img:''}
+];
 
-function addCard(type){
-  var defaults={
-    entregas:{titulo:'Nova entrega',desc:'Descricao.',tipo:'melhoria',plataforma:'Site'},
-    concluidos:{titulo:'Novo experimento',desc:'Resultados.',tipo:'concluido',plataforma:''},
-    andamento:{titulo:'Novo experimento',desc:'Hipotese.',tipo:'andamento',plataforma:''}
+function getVal(id){ return document.getElementById(id).value; }
+
+function badge(tipo){
+  var map = {
+    melhoria:'color:#1e3a8a;background:#dbeafe;border:1px solid #93c5fd;',
+    bug:'color:#991b1b;background:#fee2e2;border:1px solid #fca5a5;',
+    concluido:'color:#166534;background:#dcfce7;border:1px solid #bbf7d0;',
+    andamento:'color:#92640A;background:#FEF3C7;border:1px solid #FDE68A;'
   };
-  data[type].push(Object.assign({},defaults[type]));
-  renderSidebar();
-  render();
+  var labels = {melhoria:'Melhoria',bug:'Bug',concluido:'Concluido',andamento:'Em andamento'};
+  return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;'+map[tipo]+'">'+labels[tipo]+'</span>';
 }
 
-function removeCard(type,i){
-  data[type].splice(i,1);
-  var newImg={};
-  Object.keys(imgData[type]).forEach(function(k){
-    var nk=parseInt(k);
-    if(nk<i) newImg[nk]=imgData[type][k];
-    else if(nk>i) newImg[nk-1]=imgData[type][k];
-  });
-  imgData[type]=newImg;
-  renderSidebar();
-  render();
+function cardPreview(item){
+  var imgCell = item.img
+    ? '<td style="width:130px;min-width:130px;vertical-align:middle;background:#e2e5e8;padding:0;"><img src="'+item.img+'" style="width:130px;height:120px;object-fit:cover;display:block;"></td>'
+    : '<td style="width:130px;min-width:130px;vertical-align:middle;background:#e2e5e8;text-align:center;padding:20px 8px;"><span style="font-size:9px;color:#687787;">imagem</span></td>';
+  var plat = item.plataforma ? ' <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#374151;background:#F3F4F6;border:1px solid #D1D5DB;">'+item.plataforma+'</span>' : '';
+  return '<table style="width:100%;background:#F7F8F9;border:1px solid #e2e5e8;border-left:3px solid #3643BA;border-radius:4px;overflow:hidden;table-layout:fixed;margin-bottom:10px;" cellpadding="0" cellspacing="0"><tr>'
+    +imgCell
+    +'<td style="vertical-align:top;padding:14px 16px;">'
+    +'<p style="font-size:13px;font-weight:700;color:#15181B;margin:0 0 5px 0;">'+item.titulo+'</p>'
+    +'<p style="font-size:11px;color:#687787;line-height:1.55;margin:0 0 8px 0;">'+item.desc+'</p>'
+    +badge(item.tipo)+plat
+    +'</td></tr></table>';
 }
 
-function badgeHTML(tipo){
-  if(tipo==='melhoria') return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#1e3a8a;background:#dbeafe;border:1px solid #93c5fd;">Melhoria</span>';
-  if(tipo==='bug') return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#991b1b;background:#fee2e2;border:1px solid #fca5a5;">Bug</span>';
-  if(tipo==='concluido') return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#166534;background:#dcfce7;border:1px solid #bbf7d0;">Concluido</span>';
-  return '<span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#92640A;background:#FEF3C7;border:1px solid #FDE68A;">Em andamento</span>';
-}
+function delta(d){ return d.charAt(0)==='-'?'color:#fff;background:#687787;':'color:#15181B;background:#7AFFA6;'; }
 
-function cardHTML(item,imgSrc){
-  var imgCell=imgSrc
-    ?'<td style="width:130px;min-width:130px;vertical-align:middle;background:#e2e5e8;padding:0;"><img src="'+imgSrc+'" style="width:130px;height:120px;object-fit:cover;display:block;"></td>'
-    :'<td style="width:130px;min-width:130px;vertical-align:middle;background:#e2e5e8;text-align:center;padding:20px 8px;"><span style="font-size:9px;color:#687787;">imagem</span></td>';
-  var platBadge=item.plataforma?' <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#374151;background:#F3F4F6;border:1px solid #D1D5DB;">'+item.plataforma+'</span>':'';
-  return '<table style="width:100%;background:#F7F8F9;border:1px solid #e2e5e8;border-left:3px solid #3643BA;border-radius:4px;overflow:hidden;table-layout:fixed;margin-bottom:10px;" cellpadding="0" cellspacing="0"><tr>'+imgCell+'<td style="vertical-align:top;padding:14px 16px;"><p style="font-size:13px;font-weight:700;color:#15181B;margin:0 0 5px 0;line-height:1.3;">'+item.titulo+'</p><p style="font-size:11px;color:#687787;line-height:1.55;margin:0 0 8px 0;">'+item.desc+'</p>'+badgeHTML(item.tipo)+platBadge+'</td></tr></table>';
-}
+function buildPreview(){
+  var mes=getVal('mes'), sub=getVal('subtitulo');
+  var n1v=getVal('n1v'),n1d=getVal('n1d'),n2v=getVal('n2v'),n2d=getVal('n2d'),n3v=getVal('n3v'),n3d=getVal('n3d');
+  var expv=getVal('expv'),expd=getVal('expd'),cro=getVal('cro'),pers=getVal('pers'),clift=getVal('clift'),expmesref=getVal('expmesref');
 
-function renderSidebar(){
-  ['entregas','concluidos','andamento'].forEach(function(type){
-    var el=document.getElementById(type+'-list');
-    el.innerHTML='';
-    data[type].forEach(function(item,i){
-      var div=document.createElement('div');
-      div.className='card-block';
-      var tipoOpts='';
-      if(type==='entregas'){
-        tipoOpts='<option value="melhoria"'+(item.tipo==='melhoria'?' selected':'')+'>Melhoria</option><option value="bug"'+(item.tipo==='bug'?' selected':'')+'>Bug</option>';
-      } else if(type==='concluidos'){
-        tipoOpts='<option value="concluido" selected>Concluido</option>';
-      } else {
-        tipoOpts='<option value="andamento" selected>Em andamento</option>';
-      }
-      var imgThumb=imgData[type][i]?'<img src="'+imgData[type][i]+'" class="img-preview">':'';
-      var tipoField=type==='entregas'?'<div class="select-field" style="margin-top:6px;"><label>Tipo</label><select onchange="data[''+type+'']['+i+'].tipo=this.value;render()">'+tipoOpts+'</select></div>':'';
-      div.innerHTML=''
-        +'<div class="card-block-header"><span class="card-block-title">Card '+(i+1)+'</span><button class="btn-remove" onclick="removeCard(''+type+'','+i+')">&times;</button></div>'
-        +'<div class="field"><label>Titulo</label><input value="'+item.titulo.replace(/"/g,'&quot;').replace(/'/g,"&#39;")+'" oninput="data[''+type+'']['+i+'].titulo=this.value;render()"></div>'
-        +'<div class="field" style="margin-top:6px;"><label>Descricao</label><textarea oninput="data[''+type+'']['+i+'].desc=this.value;render()">'+item.desc+'</textarea></div>'
-        +tipoField
-        +'<div class="field" style="margin-top:6px;"><label>Plataforma</label><input value="'+item.plataforma+'" oninput="data[''+type+'']['+i+'].plataforma=this.value;render()"></div>'
-        +'<label class="img-upload">'
-        +'<input type="file" accept="image/*" style="display:none" onchange="loadImg(this,''+type+'','+i+')">'
-        +(imgThumb||'Clique para adicionar imagem')
-        +'</label>';
-      el.appendChild(div);
-    });
-  });
-}
+  var he=entregas.map(cardPreview).join('')||'<p style="color:#aaa;font-size:12px;padding:4px 0;">Nenhuma entrega.</p>';
+  var hc=concluidos.map(cardPreview).join('')||'<p style="color:#aaa;font-size:12px;padding:4px 0;">Nenhum experimento.</p>';
+  var ha=andamento.map(cardPreview).join('')||'<p style="color:#aaa;font-size:12px;padding:4px 0;">Nenhum experimento.</p>';
 
-function loadImg(input,type,i){
-  if(!input.files[0]) return;
-  var r=new FileReader();
-  r.onload=function(e){
-    imgData[type][i]=e.target.result;
-    renderSidebar();
-    render();
-  };
-  r.readAsDataURL(input.files[0]);
-}
-
-function deltaStyle(d){
-  return d.charAt(0)==='-'?'color:#fff;background:#687787;':'color:#15181B;background:#7AFFA6;';
-}
-
-function render(){
-  var mes=document.getElementById('mes').value;
-  var sub=document.getElementById('subtitulo').value;
-  var n1v=document.getElementById('n1v').value,n1d=document.getElementById('n1d').value;
-  var n2v=document.getElementById('n2v').value,n2d=document.getElementById('n2d').value;
-  var n3v=document.getElementById('n3v').value,n3d=document.getElementById('n3d').value;
-  var expv=document.getElementById('expv').value,expd=document.getElementById('expd').value;
-  var cro=document.getElementById('cro').value,pers=document.getElementById('pers').value,clift=document.getElementById('clift').value;
-  var expmesref=document.getElementById('expmesref').value;
-
-  var htmlEntregas=data.entregas.map(function(e,i){return cardHTML(e,imgData.entregas[i]||'');}).join('')||'<p style="color:#687787;font-size:12px;padding:8px 0;">Nenhuma entrega adicionada.</p>';
-  var htmlConc=data.concluidos.map(function(e,i){return cardHTML(e,imgData.concluidos[i]||'');}).join('')||'<p style="color:#687787;font-size:12px;padding:8px 0;">Nenhum experimento adicionado.</p>';
-  var htmlAnd=data.andamento.map(function(e,i){return cardHTML(e,imgData.andamento[i]||'');}).join('')||'<p style="color:#687787;font-size:12px;padding:8px 0;">Nenhum experimento adicionado.</p>';
-
-  var html=''
-    +'<table width="600" cellpadding="0" cellspacing="0" style="width:600px;font-family:Arial,sans-serif;">'
-
+  return '<table width="600" cellpadding="0" cellspacing="0" style="width:600px;font-family:Arial,sans-serif;">'
     +'<tr><td bgcolor="#3643BA" style="padding:40px 40px 36px;">'
     +'<p style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.6);margin:0 0 8px 0;">'+mes.toUpperCase()+'</p>'
-    +'<h1 style="color:#fff;font-size:28px;font-weight:800;margin:0 0 8px 0;font-family:Arial,sans-serif;">Digital Experience <span style="color:#7AFFA6;">Updates</span></h1>'
+    +'<h1 style="color:#fff;font-size:28px;font-weight:800;margin:0 0 8px 0;">Digital Experience <span style="color:#7AFFA6;">Updates</span></h1>'
     +'<p style="color:rgba(255,255,255,0.55);font-size:13px;margin:0;">'+sub+'</p>'
     +'</td></tr>'
 
     +'<tr><td bgcolor="#fff" style="padding:24px 40px;border-bottom:1px solid #e2e5e8;">'
     +'<p style="font-size:10px;font-weight:600;letter-spacing:1px;color:#687787;margin:0 0 14px 0;">DIGITAL EM NUMEROS</p>'
     +'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
-    +'<td width="32%" style="padding-right:8px;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#3643BA" style="border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:rgba(255,255,255,0.6);margin:0 0 4px 0;">Conversao Web</p><p style="font-size:24px;font-weight:700;color:#fff;margin:0;">'+n1v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+deltaStyle(n1d)+'">'+n1d+'</span></td></tr></table></td>'
-    +'<td width="32%" style="padding-right:8px;"><table width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#fff" style="border:1px solid #e2e5e8;border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:#687787;margin:0 0 4px 0;">Conversao App</p><p style="font-size:24px;font-weight:700;color:#15181B;margin:0;">'+n2v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+deltaStyle(n2d)+'">'+n2d+'</span></td></tr></table></td>'
-    +'<td width="32%"><table width="100%" cellpadding="0" cellspacing="0"><tr><td bgcolor="#fff" style="border:1px solid #e2e5e8;border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:#687787;margin:0 0 4px 0;">NPS Post Purchase</p><p style="font-size:24px;font-weight:700;color:#15181B;margin:0;">'+n3v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+deltaStyle(n3d)+'">'+n3d+'</span></td></tr></table></td>'
+    +'<td width="32%" style="padding-right:8px;"><table width="100%"><tr><td bgcolor="#3643BA" style="border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:rgba(255,255,255,0.6);margin:0 0 4px 0;">Conversao Web</p><p style="font-size:24px;font-weight:700;color:#fff;margin:0;">'+n1v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+delta(n1d)+'">'+n1d+'</span></td></tr></table></td>'
+    +'<td width="32%" style="padding-right:8px;"><table width="100%"><tr><td style="border:1px solid #e2e5e8;border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:#687787;margin:0 0 4px 0;">Conversao App</p><p style="font-size:24px;font-weight:700;color:#15181B;margin:0;">'+n2v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+delta(n2d)+'">'+n2d+'</span></td></tr></table></td>'
+    +'<td width="32%"><table width="100%"><tr><td style="border:1px solid #e2e5e8;border-radius:4px;padding:14px 16px;"><p style="font-size:10px;color:#687787;margin:0 0 4px 0;">NPS Post Purchase</p><p style="font-size:24px;font-weight:700;color:#15181B;margin:0;">'+n3v+'</p><span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;'+delta(n3d)+'">'+n3d+'</span></td></tr></table></td>'
     +'</tr></table></td></tr>'
 
     +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;">'
-    +'<p style="font-size:15px;font-weight:700;color:#15181B;margin:0 0 14px 0;">Principais entregas</p>'
-    +htmlEntregas+'</td></tr>'
+    +'<p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Principais entregas</p>'+he+'</td></tr>'
 
     +'<tr><td bgcolor="#3643BA" style="padding:28px 40px;border-bottom:1px solid #2a35a0;">'
     +'<p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 16px 0;">Resultados de experimentacao</p>'
     +'<table width="100%" cellpadding="0" cellspacing="0"><tr>'
     +'<td width="45%" valign="middle" style="padding-right:16px;"><p style="font-size:10px;font-weight:600;color:rgba(255,255,255,0.55);letter-spacing:1px;margin:0 0 6px 0;">EM '+expmesref.toUpperCase()+' OBTIVEMOS</p><p style="font-size:42px;font-weight:800;color:#7AFFA6;line-height:1;margin:0;">'+expv+'</p><p style="font-size:12px;color:rgba(255,255,255,0.7);margin:5px 0 0 0;">'+expd+'</p></td>'
     +'<td width="55%" valign="middle">'
-    +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:6px;background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;"><span style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">CRO</span></td><td align="right" style="padding:9px 12px;"><span style="font-size:14px;font-weight:700;color:#7AFFA6;">'+cro+'</span></td></tr></table>'
-    +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:6px;background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;"><span style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">PERSONALIZACAO</span></td><td align="right" style="padding:9px 12px;"><span style="font-size:14px;font-weight:700;color:#7AFFA6;">'+pers+'</span></td></tr></table>'
-    +'<table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;"><span style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">CONVERSION LIFT</span></td><td align="right" style="padding:9px 12px;"><span style="font-size:14px;font-weight:700;color:#7AFFA6;">'+clift+'</span></td></tr></table>'
+    +'<table width="100%" style="margin-bottom:6px;background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">CRO</td><td align="right" style="padding:9px 12px;font-size:14px;font-weight:700;color:#7AFFA6;">'+cro+'</td></tr></table>'
+    +'<table width="100%" style="margin-bottom:6px;background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">PERSONALIZACAO</td><td align="right" style="padding:9px 12px;font-size:14px;font-weight:700;color:#7AFFA6;">'+pers+'</td></tr></table>'
+    +'<table width="100%" style="background:rgba(255,255,255,0.1);border-radius:4px;"><tr><td style="padding:9px 12px;font-size:9px;font-weight:600;color:rgba(255,255,255,0.55);">CONVERSION LIFT</td><td align="right" style="padding:9px 12px;font-size:14px;font-weight:700;color:#7AFFA6;">'+clift+'</td></tr></table>'
     +'</td></tr></table></td></tr>'
 
     +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;">'
-    +'<p style="font-size:15px;font-weight:700;color:#15181B;margin:0 0 14px 0;">Experimentos concluidos</p>'
-    +htmlConc+'</td></tr>'
+    +'<p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Experimentos concluidos</p>'+hc+'</td></tr>'
 
     +'<tr><td bgcolor="#fff" style="padding:28px 40px;border-bottom:1px solid #e2e5e8;">'
-    +'<p style="font-size:15px;font-weight:700;color:#15181B;margin:0 0 14px 0;">Experimentos em andamento</p>'
-    +htmlAnd+'</td></tr>'
+    +'<p style="font-size:15px;font-weight:700;margin:0 0 14px 0;">Experimentos em andamento</p>'+ha+'</td></tr>'
 
     +'<tr><td bgcolor="#15181B" style="padding:28px 40px;text-align:center;">'
     +'<p style="font-size:15px;font-weight:700;color:#fff;margin:0 0 6px 0;">Digital <span style="color:#7AFFA6;">Experience</span></p>'
     +'<p style="font-size:11px;color:#687787;margin:0 0 16px 0;">Gerado automaticamente pelo chapter de Digital Experience.</p>'
     +'<a href="https://sites.google.com/decathlon.com/plataformasdigitais/home?authuser=0" style="display:inline-block;font-size:11px;font-weight:600;color:#15181B;text-decoration:none;background:#7AFFA6;padding:9px 22px;border-radius:4px;">Ver dados completos na Decanet</a>'
-    +'<div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08);">'
-    +'<p style="font-size:12px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0 0 14px 0;">Queremos que essa newsletter seja a melhor parte da sua caixa de entrada. Conta pra gente o que achou!</p>'
+    +'<div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">'
+    +'<p style="font-size:12px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0 0 12px 0;">Conta pra gente o que achou dessa edicao!</p>'
     +'<a href="https://forms.gle/XjMpxtbYdht2tzSHA" style="display:inline-block;font-size:11px;font-weight:600;color:#fff;text-decoration:none;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);padding:9px 22px;border-radius:4px;">Avaliar esta edicao</a>'
     +'</div></td></tr>'
     +'</table>';
-
-  document.getElementById('preview').innerHTML=html;
 }
 
-function copyHTML(){
-  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#F7F8F9;">'+document.getElementById('preview').innerHTML+'</body></html>';
-  var btn=document.querySelector('.btn-copy');
-  if(navigator.clipboard && navigator.clipboard.writeText){
+function render(){ document.getElementById('preview').innerHTML = buildPreview(); }
+
+function buildSidebarCards(list, type){
+  var el = document.getElementById('lista-'+type);
+  el.innerHTML = '';
+  list.forEach(function(item, i){
+    var d = document.createElement('div');
+    d.className = 'card-block';
+
+    var tipoSel = type==='entregas'
+      ? '<label class="lbl">Tipo</label><select class="inp" data-type="'+type+'" data-i="'+i+'" data-field="tipo"><option value="melhoria"'+(item.tipo==='melhoria'?' selected':'')+'>Melhoria</option><option value="bug"'+(item.tipo==='bug'?' selected':'')+'>Bug</option></select>'
+      : '';
+
+    d.innerHTML = '<div class="card-header"><span class="card-num">Card '+(i+1)+'</span><button class="btn-rem" data-type="'+type+'" data-i="'+i+'">&times;</button></div>'
+      +'<label class="lbl">Titulo</label><input class="inp" data-type="'+type+'" data-i="'+i+'" data-field="titulo" value="'+item.titulo.replace(/"/g,'&quot;')+'">'
+      +'<label class="lbl">Descricao</label><textarea class="inp" data-type="'+type+'" data-i="'+i+'" data-field="desc">'+item.desc+'</textarea>'
+      +tipoSel
+      +'<label class="lbl">Plataforma</label><input class="inp" data-type="'+type+'" data-i="'+i+'" data-field="plataforma" value="'+item.plataforma+'">'
+      +'<label class="img-lbl">Clique para adicionar imagem<input type="file" accept="image/*" style="display:none" data-type="'+type+'" data-i="'+i+'"></label>'
+      +(item.img?'<img src="'+item.img+'" style="width:100%;height:50px;object-fit:cover;border-radius:3px;margin-top:4px;">':'');
+    el.appendChild(d);
+  });
+}
+
+function rebuildAll(){
+  buildSidebarCards(entregas,'entregas');
+  buildSidebarCards(concluidos,'concluidos');
+  buildSidebarCards(andamento,'andamento');
+  render();
+}
+
+document.addEventListener('input', function(e){
+  var t=e.target, type=t.dataset.type, i=parseInt(t.dataset.i), field=t.dataset.field;
+  if(!type) return;
+  var list = type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
+  if(field) list[i][field]=t.value;
+  render();
+});
+
+document.addEventListener('change', function(e){
+  var t=e.target, type=t.dataset.type, i=parseInt(t.dataset.i), field=t.dataset.field;
+  if(!type) return;
+  var list = type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
+  if(t.type==='file'){
+    if(!t.files[0]) return;
+    var r=new FileReader();
+    r.onload=function(ev){ list[i].img=ev.target.result; rebuildAll(); };
+    r.readAsDataURL(t.files[0]);
+  } else if(field){
+    list[i][field]=t.value;
+    render();
+  }
+});
+
+document.addEventListener('click', function(e){
+  var t=e.target;
+  if(t.classList.contains('btn-rem')){
+    var type=t.dataset.type, i=parseInt(t.dataset.i);
+    var list=type==='entregas'?entregas:type==='concluidos'?concluidos:andamento;
+    list.splice(i,1);
+    rebuildAll();
+  }
+});
+
+document.getElementById('add-entrega').addEventListener('click', function(){
+  entregas.push({titulo:'Nova entrega',desc:'Descricao.',tipo:'melhoria',plataforma:'Site',img:''});
+  rebuildAll();
+});
+document.getElementById('add-concluido').addEventListener('click', function(){
+  concluidos.push({titulo:'Novo experimento',desc:'Resultados.',tipo:'concluido',plataforma:'',img:''});
+  rebuildAll();
+});
+document.getElementById('add-andamento').addEventListener('click', function(){
+  andamento.push({titulo:'Novo experimento',desc:'Hipotese.',tipo:'andamento',plataforma:'',img:''});
+  rebuildAll();
+});
+
+document.querySelectorAll('.inp').forEach(function(el){
+  el.addEventListener('input', render);
+});
+
+document.getElementById('btn-copy').addEventListener('click', function(){
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#F7F8F9;">'+buildPreview()+'</body></html>';
+  var btn=document.getElementById('btn-copy');
+  try{
     navigator.clipboard.writeText(html).then(function(){
       btn.textContent='Copiado!';btn.style.background='#166534';
       setTimeout(function(){btn.textContent='Copiar HTML para colar no Gmail';btn.style.background='#3643BA';},2000);
     });
-  } else {
+  } catch(err){
     var ta=document.createElement('textarea');
-    ta.value=html;ta.style.cssText='position:fixed;left:-9999px;top:0;';
+    ta.value=html;ta.style.position='fixed';ta.style.left='-9999px';
     document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
     btn.textContent='Copiado!';btn.style.background='#166534';
     setTimeout(function(){btn.textContent='Copiar HTML para colar no Gmail';btn.style.background='#3643BA';},2000);
   }
-}
+});
 
-window.onload=function(){
-  renderSidebar();
-  render();
-};
+rebuildAll();
 </script>
 </body>
 </html>
